@@ -6,11 +6,15 @@ public class BallBounce : MonoBehaviour
 {
     [SerializeField] BallMovement ballMovement;
     [SerializeField] ScoreManager scoreManager;
+    [SerializeField] GameObject hitSoundPrefab; // Ссылка на префаб звука
 
     private void Awake()
     {
         ballMovement = FindObjectOfType<BallMovement>();
         scoreManager = FindObjectOfType<ScoreManager>();
+
+        // Загрузка префаба звука
+        hitSoundPrefab = Resources.Load<GameObject>("HitSound");
     }
 
     void Bounce(Collision2D collision)
@@ -51,5 +55,8 @@ public class BallBounce : MonoBehaviour
             scoreManager.Player2Score();
             ballMovement.Restart();
         }
+
+        // Создание экземпляра префаба звука
+        Instantiate(hitSoundPrefab, transform.position, transform.rotation);
     }
 }

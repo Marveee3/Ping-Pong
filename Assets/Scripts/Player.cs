@@ -6,6 +6,7 @@ public class Player : MonoBehaviour
 {
     [SerializeField]private float racketSpeed;
     [SerializeField]private bool isPlayer1;
+    [SerializeField]private bool singlePlayer;
 
     private Rigidbody2D rb;
     private Vector2 racketDirection;
@@ -17,8 +18,17 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        if(isPlayer1)racketDirection = new Vector2(0, Input.GetAxisRaw("Vertical1")).normalized;
-        else racketDirection = new Vector2(0, Input.GetAxisRaw("Vertical2")).normalized;
+        if(!singlePlayer)
+        {
+            if(isPlayer1)racketDirection = new Vector2(0, Input.GetAxisRaw("Vertical1")).normalized;
+            else racketDirection = new Vector2(0, Input.GetAxisRaw("Vertical2")).normalized;
+        }
+        else
+        {
+            racketDirection = new Vector2(0, Input.GetAxisRaw("Vertical")).normalized;
+        }
+
+         
     }
 
     private void FixedUpdate()
