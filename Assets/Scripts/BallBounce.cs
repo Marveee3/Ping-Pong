@@ -1,20 +1,33 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BallBounce : MonoBehaviour
 {
     [SerializeField] BallMovement ballMovement;
     [SerializeField] ScoreManager scoreManager;
-    [SerializeField] GameObject hitSoundPrefab; // Ссылка на префаб звука
+
+    private AudioSource audioSource;
+    private AudioClip hitSound;
 
     private void Awake()
     {
         ballMovement = FindObjectOfType<BallMovement>();
         scoreManager = FindObjectOfType<ScoreManager>();
 
-        // Загрузка префаба звука
-        hitSoundPrefab = Resources.Load<GameObject>("HitSound");
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+            audioSource = gameObject.AddComponent<AudioSource>();
+        audioSource.playOnAwake = false;
+
+        GameObject prefab = Resources.Load<GameObject>("HitSound");
+        if (prefab != null)
+        {
+            AudioSource prefabSource = prefab.GetComponent<AudioSource>();
+            if (prefabSource != null)
+            {
+                hitSound = prefabSource.clip;
+                audioSource.volume = prefabSource.volume;
+            }
+        }
     }
 
     void Bounce(Collision2D collision)
@@ -43,6 +56,8 @@ public class BallBounce : MonoBehaviour
         if(collision.gameObject.name == "Player 1" || collision.gameObject.name == "Player 2")
         {
             Bounce(collision);
+            if (hitSound != null && audioSource != null)
+                audioSource.PlayOneShot(hitSound);
         }
 
         if(collision.gameObject.name == "Right Border")
@@ -55,8 +70,5 @@ public class BallBounce : MonoBehaviour
             scoreManager.Player2Score();
             ballMovement.Restart();
         }
-
-        // Создание экземпляра префаба звука
-        Instantiate(hitSoundPrefab, transform.position, transform.rotation);
     }
 }

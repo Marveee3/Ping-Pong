@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 public class ScoreManager : MonoBehaviour
 {
@@ -19,12 +16,7 @@ public class ScoreManager : MonoBehaviour
     void Start()
     {
         sceneTransition = FindObjectOfType<SceneTransition>();
-    }
-
-    private void Update()
-    {
         UpdateScoreText();
-        CheckForGameOver();
     }
 
     private void UpdateScoreText()
@@ -51,10 +43,14 @@ public class ScoreManager : MonoBehaviour
     public void Player1Score()
     {
         p1Score++;
+        UpdateScoreText();
+        CheckForGameOver();
     }
 
     public void Player2Score()
     {
         p2Score++;
+        UpdateScoreText();
+        CheckForGameOver();
     }
 }

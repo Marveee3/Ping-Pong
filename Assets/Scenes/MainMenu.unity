@@ -508,7 +508,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectToShow1: {fileID: 1327905997}
   objectToShow2: {fileID: 1672455624}
-  hitSoundPrefab: {fileID: 0}
 --- !u!1 &349875638
 GameObject:
   m_ObjectHideFlags: 0
@@ -799,7 +798,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectToShow1: {fileID: 642162888}
   objectToShow2: {fileID: 239648779}
-  hitSoundPrefab: {fileID: 0}
 --- !u!1 &396812104
 GameObject:
   m_ObjectHideFlags: 0
@@ -847,6 +845,8 @@ MonoBehaviour:
   fadeImage: {fileID: 2097218032}
   fadeDuration: 1
   fadeColor: {r: 0, g: 0, b: 0, a: 1}
+  showBrandSplash: 1
+  brandSplashHoldTime: 1.2
 --- !u!1 &464235400
 GameObject:
   m_ObjectHideFlags: 0
@@ -1555,7 +1555,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectToShow1: {fileID: 1360131532}
   objectToShow2: {fileID: 1659443220}
-  hitSoundPrefab: {fileID: 0}
 --- !u!1 &1659443220
 GameObject:
   m_ObjectHideFlags: 0

@@ -8,13 +8,38 @@ public class BallMovement : MonoBehaviour
     [SerializeField]private float extraSpeed;
     [SerializeField]private float maxExtraSpeed;
 
+    [SerializeField]private float minX = -8.45f;
+    [SerializeField]private float maxX = 8.45f;
+    [SerializeField]private float minY = -4.55f;
+    [SerializeField]private float maxY = 4.55f;
+
     private int hitCounter = 0;
     private Rigidbody2D rb;
     
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
         StartCoroutine(Launch());
+    }
+
+    void Update()
+    {
+        ClampInsideField();
+    }
+
+    void ClampInsideField()
+    {
+        Vector3 pos = transform.position;
+        float clampedX = Mathf.Clamp(pos.x, minX, maxX);
+        float clampedY = Mathf.Clamp(pos.y, minY, maxY);
+
+        if(Mathf.Abs(pos.x - clampedX) > 0.0001f)
+            rb.velocity = new Vector2(-rb.velocity.x, rb.velocity.y);
+        if(Mathf.Abs(pos.y - clampedY) > 0.0001f)
+            rb.velocity = new Vector2(rb.velocity.x, -rb.velocity.y);
+
+        transform.position = new Vector3(clampedX, clampedY, pos.z);
     }
 
     IEnumerator Launch()

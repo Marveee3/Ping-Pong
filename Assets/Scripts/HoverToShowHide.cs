@@ -5,11 +5,28 @@ public class HoverToShowHideUI : MonoBehaviour, IPointerEnterHandler, IPointerEx
 {
     [SerializeField] private GameObject objectToShow1;
     [SerializeField] private GameObject objectToShow2;
-    [SerializeField] GameObject hitSoundPrefab; // Ссылка на префаб звука
+
+    private AudioSource audioSource;
+    private AudioClip hitSound;
 
     private void Start()
     {
-        hitSoundPrefab = Resources.Load<GameObject>("HitSound");
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+            audioSource = gameObject.AddComponent<AudioSource>();
+        audioSource.playOnAwake = false;
+
+        GameObject prefab = Resources.Load<GameObject>("HitSound");
+        if (prefab != null)
+        {
+            AudioSource prefabSource = prefab.GetComponent<AudioSource>();
+            if (prefabSource != null)
+            {
+                hitSound = prefabSource.clip;
+                audioSource.volume = prefabSource.volume;
+            }
+        }
+
         // Скрываем объекты при старте
         if (objectToShow1 != null)
             objectToShow1.SetActive(false);
@@ -21,8 +38,11 @@ public class HoverToShowHideUI : MonoBehaviour, IPointerEnterHandler, IPointerEx
     {
         // При наведении курсора показываем объекты
         if (objectToShow1 != null)
+        {
             objectToShow1.SetActive(true);
-            Instantiate(hitSoundPrefab, transform.position, transform.rotation);
+            if (hitSound != null && audioSource != null)
+                audioSource.PlayOneShot(hitSound);
+        }
         if (objectToShow2 != null)
             objectToShow2.SetActive(true);
     }
