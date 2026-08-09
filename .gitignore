@@ -77,3 +77,6 @@ crashlytics-build.properties
 # Python
 __pycache__/
 *.pyc
+
+# Local tooling (not part of the Unity project)
+/Tools/
